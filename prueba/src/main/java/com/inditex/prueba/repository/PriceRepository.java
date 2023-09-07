@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface PriceRepository
-    extends JpaRepository<Price, Long> {
+public interface PriceRepository extends JpaRepository<Price, Long> {
 
   @Query(
       value =

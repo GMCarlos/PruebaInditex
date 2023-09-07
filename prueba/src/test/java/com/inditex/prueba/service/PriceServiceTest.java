@@ -28,7 +28,6 @@ public class PriceServiceTest {
   @Mock private PriceMapper priceMapper;
   @InjectMocks private PriceService priceService;
 
-
   @Test
   public void testFindApplicablePrices1() {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0);
@@ -80,96 +79,89 @@ public class PriceServiceTest {
     Long brandId = 1L;
 
     PriceRequest priceRequest =
-            PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
+        PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
 
     List<Price> mockPrices =
-            List.of(
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .priceList(3L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("30.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(4L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("38.95"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(1L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("35.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .priceList(2L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("25.45"))
-                            .currency("EUR")
-                            .build()
-            );
+        List.of(
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .priceList(3L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("30.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(4L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("38.95"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(1L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .priceList(2L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("25.45"))
+                .currency("EUR")
+                .build());
 
     when(priceRepository.findResults(
             priceRequest.getDate(), priceRequest.getProductId(), priceRequest.getBrandId()))
-            .thenReturn(mockPrices);
+        .thenReturn(mockPrices);
 
     List<PriceResponse> mockPriceResponses =
-            List.of(
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .finalPrice(new BigDecimal("30.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("38.95"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("35.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .finalPrice(new BigDecimal("25.45"))
-                            .build());
+        List.of(
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .finalPrice(new BigDecimal("30.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("38.95"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("35.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .finalPrice(new BigDecimal("25.45"))
+                .build());
 
     when(priceMapper.toPriceResponse(mockPrices.get(0))).thenReturn(mockPriceResponses.get(0));
     when(priceMapper.toPriceResponse(mockPrices.get(1))).thenReturn(mockPriceResponses.get(1));
@@ -188,96 +180,89 @@ public class PriceServiceTest {
     Long brandId = 1L;
 
     PriceRequest priceRequest =
-            PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
+        PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
 
     List<Price> mockPrices =
-            List.of(
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .priceList(3L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("30.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(4L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("38.95"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(1L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("35.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .priceList(2L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("25.45"))
-                            .currency("EUR")
-                            .build()
-            );
+        List.of(
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .priceList(3L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("30.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(4L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("38.95"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(1L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .priceList(2L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("25.45"))
+                .currency("EUR")
+                .build());
 
     when(priceRepository.findResults(
             priceRequest.getDate(), priceRequest.getProductId(), priceRequest.getBrandId()))
-            .thenReturn(mockPrices);
+        .thenReturn(mockPrices);
 
     List<PriceResponse> mockPriceResponses =
-            List.of(
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .finalPrice(new BigDecimal("30.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("38.95"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("35.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .finalPrice(new BigDecimal("25.45"))
-                            .build());
+        List.of(
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .finalPrice(new BigDecimal("30.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("38.95"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("35.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .finalPrice(new BigDecimal("25.45"))
+                .build());
 
     when(priceMapper.toPriceResponse(mockPrices.get(0))).thenReturn(mockPriceResponses.get(0));
     when(priceMapper.toPriceResponse(mockPrices.get(1))).thenReturn(mockPriceResponses.get(1));
@@ -296,76 +281,71 @@ public class PriceServiceTest {
     Long brandId = 1L;
 
     PriceRequest priceRequest =
-            PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
+        PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
 
     List<Price> mockPrices =
-            List.of(
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .priceList(3L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("30.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(1L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("35.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .priceList(2L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("25.45"))
-                            .currency("EUR")
-                            .build()
-            );
+        List.of(
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .priceList(3L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("30.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(1L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .priceList(2L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("25.45"))
+                .currency("EUR")
+                .build());
 
     when(priceRepository.findResults(
             priceRequest.getDate(), priceRequest.getProductId(), priceRequest.getBrandId()))
-            .thenReturn(mockPrices);
+        .thenReturn(mockPrices);
 
     List<PriceResponse> mockPriceResponses =
-            List.of(
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .finalPrice(new BigDecimal("30.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("35.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .finalPrice(new BigDecimal("25.45"))
-                            .build());
+        List.of(
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .finalPrice(new BigDecimal("30.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("35.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .finalPrice(new BigDecimal("25.45"))
+                .build());
 
     when(priceMapper.toPriceResponse(mockPrices.get(0))).thenReturn(mockPriceResponses.get(0));
     when(priceMapper.toPriceResponse(mockPrices.get(1))).thenReturn(mockPriceResponses.get(1));
@@ -383,96 +363,89 @@ public class PriceServiceTest {
     Long brandId = 1L;
 
     PriceRequest priceRequest =
-            PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
+        PriceRequest.builder().brandId(brandId).productId(productId).date(date).build();
 
     List<Price> mockPrices =
-            List.of(
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .priceList(3L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("30.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(4L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(1)
-                            .price(new BigDecimal("38.95"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .priceList(1L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("35.50"))
-                            .currency("EUR")
-                            .build(),
-
-                    Price.builder()
-                            .brand(Brand.builder().id(1L).name("XYZ").build())
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .priceList(2L)
-                            .product(Product.builder().id(35455L).rate("standard").build())
-                            .priority(0)
-                            .price(new BigDecimal("25.45"))
-                            .currency("EUR")
-                            .build()
-            );
+        List.of(
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .priceList(3L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("30.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(4L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(1)
+                .price(new BigDecimal("38.95"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .priceList(1L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .currency("EUR")
+                .build(),
+            Price.builder()
+                .brand(Brand.builder().id(1L).name("XYZ").build())
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .priceList(2L)
+                .product(Product.builder().id(35455L).rate("standard").build())
+                .priority(0)
+                .price(new BigDecimal("25.45"))
+                .currency("EUR")
+                .build());
 
     when(priceRepository.findResults(
             priceRequest.getDate(), priceRequest.getProductId(), priceRequest.getBrandId()))
-            .thenReturn(mockPrices);
+        .thenReturn(mockPrices);
 
     List<PriceResponse> mockPriceResponses =
-            List.of(
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
-                            .finalPrice(new BigDecimal("30.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("38.95"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
-                            .finalPrice(new BigDecimal("35.50"))
-                            .build(),
-
-                    PriceResponse.builder()
-                            .productId(35455L)
-                            .chainId("XYZ")
-                            .rate("standard")
-                            .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
-                            .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
-                            .finalPrice(new BigDecimal("25.45"))
-                            .build());
+        List.of(
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
+                .finalPrice(new BigDecimal("30.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("38.95"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
+                .finalPrice(new BigDecimal("35.50"))
+                .build(),
+            PriceResponse.builder()
+                .productId(35455L)
+                .chainId("XYZ")
+                .rate("standard")
+                .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 14, 18, 30, 0))
+                .finalPrice(new BigDecimal("25.45"))
+                .build());
 
     when(priceMapper.toPriceResponse(mockPrices.get(0))).thenReturn(mockPriceResponses.get(0));
     when(priceMapper.toPriceResponse(mockPrices.get(1))).thenReturn(mockPriceResponses.get(1));
@@ -484,4 +457,3 @@ public class PriceServiceTest {
     assertEquals(mockPriceResponses, result);
   }
 }
-

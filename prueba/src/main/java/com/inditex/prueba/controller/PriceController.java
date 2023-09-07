@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping("/prices")
 @RequiredArgsConstructor
 public class PriceController {
-    private final PriceService priceService;
+  private final PriceService priceService;
 
-    @GetMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PriceResponse>> findPrices(@Valid PriceRequest priceRequest) {
-        return ResponseEntity.ok(priceService.findApplicablePrices(priceRequest));
-    }
+  @GetMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<PriceResponse>> findPrices(@Valid PriceRequest priceRequest) {
+    return ResponseEntity.ok(priceService.findApplicablePrices(priceRequest));
+  }
 }
