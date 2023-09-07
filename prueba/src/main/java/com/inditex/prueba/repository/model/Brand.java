@@ -1,10 +1,8 @@
 package com.inditex.prueba.repository.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,6 +10,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "brand")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

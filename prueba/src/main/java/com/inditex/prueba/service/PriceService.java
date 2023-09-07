@@ -1,11 +1,11 @@
 package com.inditex.prueba.service;
 
 import com.inditex.prueba.controller.model.PriceRequest;
+import com.inditex.prueba.controller.model.PriceResponse;
 import com.inditex.prueba.repository.PriceRepository;
-import com.inditex.prueba.repository.dto.PriceDto;
 import com.inditex.prueba.repository.model.Price;
+import com.inditex.prueba.service.mapper.PriceMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +16,18 @@ public class PriceService {
 
   private final PriceRepository priceRepository;
 
-  public List<PriceDto> findApplicablePrices(PriceRequest priceRequest) {
+  private final PriceMapper priceMapper;
 
-    return priceRepository.findResults(priceRequest.getDate(),
-            priceRequest.getProductId(),
-            priceRequest.getBrandId());
+  public List<PriceResponse> findApplicablePrices(PriceRequest priceRequest) {
+
+    return priceRepository
+        .findResults(priceRequest.getDate(), priceRequest.getProductId(), priceRequest.getBrandId())
+        .stream()
+        .map(this::getPriceResponseMapper)
+        .toList();
+  }
+
+  private PriceResponse getPriceResponseMapper(Price price) {
+    return priceMapper.toPriceResponse(price);
   }
 }

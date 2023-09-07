@@ -22,7 +22,7 @@ CREATE TABLE "price" (
     "price_list" BIGSERIAL NOT NULL,
     "product_id" INTEGER NOT NULL,
     "priority" INTEGER NOT NULL,
-    "price" NUMERIC NOT NULL,
+    "price" DECIMAL(10, 2) NOT NULL,
     "currency" VARCHAR(3) NOT NULL,
     CONSTRAINT price_pk PRIMARY KEY ("price_list"),
     CONSTRAINT price_brand_pk FOREIGN KEY ("brand_id") REFERENCES "brand"("id"),

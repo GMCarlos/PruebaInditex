@@ -1,9 +1,10 @@
 package com.inditex.prueba.controller;
 
 import com.inditex.prueba.controller.model.PriceRequest;
-import com.inditex.prueba.repository.dto.PriceDto;
+import com.inditex.prueba.controller.model.PriceResponse;
 import com.inditex.prueba.service.PriceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,8 @@ import java.util.List;
 public class PriceController {
     private final PriceService priceService;
 
-    @GetMapping("/find")
-    public ResponseEntity<List<PriceDto>> findPrices(@Valid PriceRequest priceRequest) {
+    @GetMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PriceResponse>> findPrices(@Valid PriceRequest priceRequest) {
         return ResponseEntity.ok(priceService.findApplicablePrices(priceRequest));
     }
 }

@@ -1,11 +1,11 @@
 package com.inditex.prueba.repository.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @Table(name = "price")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Price {
 
   @ManyToOne
@@ -37,5 +40,7 @@ public class Price {
 
   @NotNull private Integer priority;
   @NotNull private BigDecimal price;
-  @NotNull private String currency;
+  @NotNull
+  @Size(min = 3, max = 3)
+  private String currency;
 }
